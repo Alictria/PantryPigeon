@@ -9,7 +9,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.pantrypigeon.ui.AddProductPreview
+import com.example.pantrypigeon.ui.AddProductScreen
 import com.example.pantrypigeon.ui.HomeView
 import com.example.pantrypigeon.ui.theme.PantryPigeonTheme
 
@@ -35,7 +35,7 @@ fun PantryPigeon() {
                 HomeView(onClickAddProduct = { navController.navigateSingleTopTo(AddProductView.route) })
             }
             composable(route = AddProductView.route) {
-                AddProductPreview()
+                AddProductScreen()
             }
         }
     }
