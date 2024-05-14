@@ -1,5 +1,6 @@
 package com.example.pantrypigeon.ui
 
+import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -32,13 +33,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.unit.dp
+import com.example.pantrypigeon.MainActivity
 import java.text.SimpleDateFormat
 import java.util.Date
 
 @Composable
-fun AddProductScreen() {
+fun AddProductScreen(context: Context, onClickSaveProduct: () -> Unit) {
+    val sharedPrefKey = "pantryPigeon.preference.key"
+    val sharedPref =
+        context.getSharedPreferences("pantryPigeon.preference.key", Context.MODE_PRIVATE)
     var productName by remember { mutableStateOf("") }
     val maxNameLength = 50
+    var expirationDate = ""
+    var storageType = ""
 
     Column(
         modifier = Modifier
@@ -63,9 +70,9 @@ fun AddProductScreen() {
                 .fillMaxSize()
                 .padding(4.dp)
         ) {
-            ExpirationDatePicker()
+            expirationDate = ExpirationDatePicker()
             Spacer(modifier = Modifier.padding(4.dp))
-            StorageLocationDropDown()
+            storageType = StorageLocationDropDown()
         }
     }
 
@@ -75,7 +82,19 @@ fun AddProductScreen() {
         horizontalAlignment = Alignment.End,
     ) {
         FloatingActionButton(
-            onClick = { },
+            onClick = {
+                with(sharedPref.edit()) {
+                    val productEntries = setOf(productName, expirationDate, storageType)
+                    putStringSet(productEntries.first(), productEntries)
+                    apply()
+                }
+
+                onClickSaveProduct()
+                // save input to sharedPrefs
+                // clear all input fields
+                //navigate back to home
+
+            },
             Modifier.padding(16.dp)
         ) {
             Icon(Icons.Filled.Check, "Save item")
@@ -86,7 +105,7 @@ fun AddProductScreen() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ExpirationDatePicker(
-) {
+): String {
     var expirationDate by remember { mutableStateOf("") }
     val openDialog = remember { mutableStateOf(false) }
     if (openDialog.value) {
@@ -133,11 +152,12 @@ fun ExpirationDatePicker(
         onValueChange = {
         },
         label = { Text("EXP") })
+    return expirationDate
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun StorageLocationDropDown() {
+fun StorageLocationDropDown(): String {
     val pantryTypes = listOf("Fridge", "Freezer", "Pantry")
     var expanded by remember { mutableStateOf(false) }
     var selectedText by remember { mutableStateOf(pantryTypes[0]) }
@@ -170,4 +190,5 @@ fun StorageLocationDropDown() {
             }
         }
     }
+    return selectedText
 }

@@ -13,29 +13,33 @@ import com.example.pantrypigeon.ui.AddProductScreen
 import com.example.pantrypigeon.ui.HomeView
 import com.example.pantrypigeon.ui.theme.PantryPigeonTheme
 
-class MainActivity : ComponentActivity() {
+class MainActivity : ComponentActivity(
+) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             PantryPigeon()
         }
     }
-}
 
-@Preview
-@Composable
-fun PantryPigeon() {
-    PantryPigeonTheme {
-        val navController = rememberNavController()
-        NavHost(
-            navController = navController,
-            startDestination = HomeView.route
-        ) {
-            composable(route = HomeView.route) {
-                HomeView(onClickAddProduct = { navController.navigateSingleTopTo(AddProductView.route) })
-            }
-            composable(route = AddProductView.route) {
-                AddProductScreen()
+
+    @Preview
+    @Composable
+    fun PantryPigeon() {
+        PantryPigeonTheme {
+            val navController = rememberNavController()
+            NavHost(
+                navController = navController,
+                startDestination = Home.route
+            ) {
+                composable(route = Home.route) {
+                    HomeView(onClickAddProduct = { navController.navigateSingleTopTo(AddProduct.route) })
+                }
+                composable(route = AddProduct.route) {
+                    AddProductScreen(this@MainActivity, onClickSaveProduct = {
+                    navController.navigateSingleTopTo(Home.route)
+                    })
+                }
             }
         }
     }

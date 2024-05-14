@@ -4,10 +4,10 @@ interface PantryPigeonDestinations {
     val route: String
 }
 
-object HomeView : PantryPigeonDestinations {
+object Home : PantryPigeonDestinations {
     override val route = "homeView"
 }
 
-object AddProductView : PantryPigeonDestinations {
-    override val route = "addProductView"
+object AddProduct : PantryPigeonDestinations {
+     override val route = "addProductView"
 }
