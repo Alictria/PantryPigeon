@@ -110,9 +110,7 @@ fun ExpirationDatePicker(
     val openDialog = remember { mutableStateOf(false) }
     if (openDialog.value) {
         val datePickerState = rememberDatePickerState()
-        val confirmEnabled = remember {
-            derivedStateOf { datePickerState.selectedDateMillis != null }
-        }
+
         DatePickerDialog(
             onDismissRequest = {
                 openDialog.value = false
@@ -127,7 +125,7 @@ fun ExpirationDatePicker(
                             simpleDateFormat.format(Date(datePickerState.selectedDateMillis!!))
                         // TODO(Paty): Defocus from the text field
                     },
-                    enabled = confirmEnabled.value
+                    enabled = datePickerState.selectedDateMillis != null
                 ) {
                     Text("OK")
                 }
