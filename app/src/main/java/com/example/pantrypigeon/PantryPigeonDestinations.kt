@@ -11,3 +11,11 @@ object HomeView : PantryPigeonDestinations {
 object AddProductView : PantryPigeonDestinations {
     override val route = "addProductView"
 }
+
+object PantryView : PantryPigeonDestinations {
+    override val route = "pantryView"
+}
+
+object ProductDetailView : PantryPigeonDestinations {
+    override val route = "productDetailView"
+}
