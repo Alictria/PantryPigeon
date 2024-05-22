@@ -48,7 +48,7 @@ fun PantryView(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    val dateFormat = SimpleDateFormat("dd.mm.yy")
+                    val dateFormat = SimpleDateFormat("dd.MM.yy")
                     val formattedDate = dateFormat.format(product.expirationDate)
 
                     Text(text = formattedDate)

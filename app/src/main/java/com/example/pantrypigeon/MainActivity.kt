@@ -46,6 +46,7 @@ class MainActivity : ComponentActivity() {
             PantryPigeonTheme {
                 val state by viewModel.state.collectAsState()
                 val stateProductDetails by viewModel.stateProductDetails.collectAsState()
+                val stateOldestProduct by viewModel.oldestProductState.collectAsState()
 
                 val navController = rememberNavController()
                 NavHost(
@@ -53,11 +54,15 @@ class MainActivity : ComponentActivity() {
                     startDestination = HomeView.route
                 ) {
                     composable(route = HomeView.route) {
-                        HomeView(onClickAddProduct = {
-                            navController.navigateSingleTopTo(
-                                AddProductView.route
-                            )
-                        }, navPantry = { navController.navigateSingleTopTo(PantryView.route) })
+                        HomeView(
+                            onClickAddProduct = {
+                                navController.navigateSingleTopTo(
+                                    AddProductView.route
+                                )
+                            },
+                            navPantry = { navController.navigateSingleTopTo(PantryView.route) },
+                            state = stateOldestProduct
+                        )
                     }
                     composable(route = PantryView.route) {
                         PantryView(

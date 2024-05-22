@@ -28,6 +28,13 @@ class ProductViewModel(
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), ProductState())
 
+    private val _oldestProducts = dao.getProductByOldestDates()
+    private val _oldestProductState = MutableStateFlow(ProductState())
+    val oldestProductState = combine(_oldestProductState, _oldestProducts) { productState, oldestProduct ->
+        productState.copy(
+            products = oldestProduct
+        )
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), ProductState())
     fun getProductDetailsById(id: Int) {
         viewModelScope.launch {
             _stateProductDetails.value = dao.getProductDetailsById(id)

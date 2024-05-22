@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ProductDao {
-    @Query("SELECT * FROM product_information ORDER BY expiration_date DESC")
+    @Query("SELECT * FROM product_information ORDER BY expiration_date ASC")
     fun getProductByOldestDates(): Flow<List<Product>>
 
     @Query("SELECT * FROM product_information ORDER BY id ASC")
