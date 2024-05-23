@@ -1,5 +1,6 @@
 package com.example.pantrypigeon.ui
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -36,6 +37,7 @@ import com.example.pantrypigeon.ProductState
 import java.text.SimpleDateFormat
 import java.util.Date
 
+@SuppressLint("SimpleDateFormat")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddProductScreen(
@@ -83,6 +85,7 @@ fun AddProductScreen(
                 val openDialog = remember { mutableStateOf(false) }
                 if (openDialog.value) {
                     val datePickerState = rememberDatePickerState()
+                    val dateInMilli = datePickerState.selectedDateMillis
 
                     DatePickerDialog(
                         onDismissRequest = {
@@ -94,9 +97,12 @@ fun AddProductScreen(
                                     openDialog.value = false
 
                                     val simpleDateFormat = SimpleDateFormat("dd.MM.yy")
-                                    expirationDate =
-                                        simpleDateFormat.format(Date(datePickerState.selectedDateMillis!!))
-                                    // TODO(Paty): defocus from the text field
+
+                                    if (dateInMilli != null) {
+                                        expirationDate =
+                                            simpleDateFormat.format(Date(dateInMilli))
+                                        onEvent(ProductEvent.SetExpirationDate(Date(dateInMilli)))
+                                    }
                                 },
                                 enabled = datePickerState.selectedDateMillis != null
                             ) {
