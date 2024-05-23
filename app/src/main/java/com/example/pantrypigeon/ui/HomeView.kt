@@ -4,14 +4,13 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -22,6 +21,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.pantrypigeon.ProductState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.filled.List
+import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.Scaffold
 import java.text.SimpleDateFormat
 
 
@@ -31,59 +33,59 @@ fun HomeView(
     navPantry: () -> Unit,
     state: ProductState
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Text(text = "Expires next!", modifier = Modifier.padding(16.dp))
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxWidth()
-                .border(1.dp, Color.Black, RoundedCornerShape(10))
-        ) {
-            items(state.products) {product ->
-                Row(
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .border(1.dp, Color.Black, RoundedCornerShape(20))
-                        .padding(16.dp)
-                        .fillMaxWidth(),
-                    verticalAlignment = Alignment.Top,
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    val dateFormat = SimpleDateFormat("dd.MM.yy")
-                    val formattedDate = dateFormat.format(product.expirationDate)
-
-                    Text(text = product.productName,/* modifier = Modifier.padding(16.dp)*/)
-                    Text(text = formattedDate)
-                    Text(text = product.storageLocation)
-                }
+    Scaffold(
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = { onClickAddProduct() }
+            ) {
+                Icon(Icons.Filled.Add, "Add product")
             }
         }
-    }
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Bottom,
-        horizontalAlignment = Alignment.End,
-    ) {
+    ) { innerPadding ->
 
-
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-
-            FloatingActionButton(
-                onClick = { navPantry() },
-                Modifier.padding(16.dp)
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(innerPadding)
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text(text = "Expires next!", modifier = Modifier.padding(16.dp))
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .border(1.dp, Color.Black, RoundedCornerShape(10))
+                    .height(400.dp)
             ) {
-                Icon(Icons.Filled.Home, "Add item")
+                items(state.products) { product ->
+                    Row(
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .border(1.dp, Color.Black, RoundedCornerShape(20))
+                            .padding(16.dp)
+                            .fillMaxWidth(),
+                        verticalAlignment = Alignment.Top,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        val dateFormat = SimpleDateFormat("dd.MM.yy")
+                        val formattedDate = dateFormat.format(product.expirationDate)
+
+                        Text(text = product.productName/* modifier = Modifier.padding(16.dp)*/)
+                        Text(text = formattedDate)
+                        Text(text = product.storageLocation)
+                    }
+                }
             }
-            FloatingActionButton(
-                onClick = { onClickAddProduct() },
-                Modifier.padding(16.dp)
+            Column(
+                modifier = Modifier.padding(16.dp),
+                horizontalAlignment = Alignment.End,
             ) {
-                Icon(Icons.Filled.Add, "Add item")
+                ExtendedFloatingActionButton(
+                    onClick = { navPantry() },
+                    icon = { Icon(Icons.Filled.List, "Add item.") },
+                    text = { Text(text = "View Pantry") },
+                )
             }
         }
     }
