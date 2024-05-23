@@ -1,12 +1,9 @@
 package com.example.pantrypigeon.ui
 
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -16,7 +13,6 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -25,14 +21,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.pantrypigeon.Product
 import com.example.pantrypigeon.ProductEvent
-import com.example.pantrypigeon.ProductState
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
 
 @Composable
 fun ProductDetailView(
-    stateProductDetails: Product?
+    stateProductDetails: Product?,
+    onEvent: (ProductEvent) -> Unit,
+    naveToPantry:() -> Unit
 ) {
     val brush = Brush.horizontalGradient(listOf(Color.Red, Color.Blue))
     if (stateProductDetails != null) {
@@ -64,7 +58,7 @@ fun ProductDetailView(
                 Text(text = "storage ")
             }
             FloatingActionButton(
-                onClick = {},
+                onClick = {run { onEvent(ProductEvent.DeleteProduct(stateProductDetails)); naveToPantry()  }},
                 modifier = Modifier.padding(16.dp),
                 containerColor = Color.Red
             ) {

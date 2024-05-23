@@ -77,7 +77,9 @@ class MainActivity : ComponentActivity() {
                     }
                     composable(route = ProductDetailView.route) {
                         ProductDetailView(
-                            stateProductDetails = stateProductDetails
+                            stateProductDetails = stateProductDetails,
+                            onEvent = viewModel::onEvent,
+                            naveToPantry = { navController.navigateSingleTopTo(PantryView.route) }
                         )
                     }
 
