@@ -4,6 +4,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -28,7 +29,7 @@ fun ProductDetailView(
     onEvent: (ProductEvent) -> Unit,
     naveToPantry:() -> Unit
 ) {
-    val brush = Brush.horizontalGradient(listOf(Color.Red, Color.Blue))
+    val brush = Brush.horizontalGradient(listOf(Color.Green, Color.Blue))
     if (stateProductDetails != null) {
         Column(
             modifier = Modifier
@@ -37,6 +38,7 @@ fun ProductDetailView(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
 
+            Text(text = "Product details", modifier = Modifier.padding(16.dp))
 
             Text(
                 text = stateProductDetails.productName, modifier = Modifier
@@ -45,9 +47,10 @@ fun ProductDetailView(
                     .padding(16.dp)
             )
 
+            Spacer(modifier = Modifier.padding(16.dp))
+
             Row(
                 modifier = Modifier
-                    .padding(16.dp)
                     .border(2.dp, brush, RoundedCornerShape(20))
                     .padding(16.dp)
                     .fillMaxWidth(),
@@ -66,18 +69,17 @@ fun ProductDetailView(
             }
 
         }
-    }
-    else {
-    Column(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = "No Product with this id", modifier = Modifier
-                .padding(16.dp)
-                .fillMaxWidth(),
-            textAlign = TextAlign.Center
-        )
-    }
+    } else {
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = "No Product with this id", modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth(),
+                textAlign = TextAlign.Center
+            )
+        }
     }
 }

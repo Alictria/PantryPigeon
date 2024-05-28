@@ -3,9 +3,12 @@ package com.example.pantrypigeon.ui
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
@@ -63,8 +66,11 @@ fun AddProductScreen(
                 .padding(padding),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Text(text = "Add Product")
+            Text(text = "Add Product", modifier = Modifier.padding(16.dp))
             OutlinedTextField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
                 value = state.productName,
                 onValueChange = {
                     if (it.length <= maxNameLength) {
@@ -120,7 +126,7 @@ fun AddProductScreen(
                 }
                 OutlinedTextField(
                     modifier = Modifier
-                        .width(100.dp)
+                        .weight(1f)
                         .onFocusChanged {
                             if (it.isFocused) {
                                 openDialog.value = true
@@ -131,10 +137,14 @@ fun AddProductScreen(
                     },
                     label = { Text("EXP") })
 
+                Spacer(modifier = Modifier.width(16.dp))
+
                 val pantryTypes = listOf("Fridge", "Freezer", "Pantry")
                 var expanded by remember { mutableStateOf(false) }
                 var selectedText by remember { mutableStateOf(pantryTypes[0]) }
                 ExposedDropdownMenuBox(
+                    modifier = Modifier.weight(2f)
+                        .height(IntrinsicSize.Min),
                     expanded = expanded,
                     onExpandedChange = {
                         expanded = !expanded
