@@ -1,52 +1,34 @@
 package com.example.pantrypigeon
 
-import ProductViewModel
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.room.Room
 import com.example.pantrypigeon.ui.AddProductScreen
 import com.example.pantrypigeon.ui.HomeView
 import com.example.pantrypigeon.ui.PantryView
 import com.example.pantrypigeon.ui.ProductDetailView
 import com.example.pantrypigeon.ui.theme.PantryPigeonTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    private val db by lazy {
-        Room.databaseBuilder(
-            applicationContext,
-            ProductDatabase::class.java,
-            "products.db"
-        ).build()
-    }
-
-    private val viewModel by viewModels<ProductViewModel>(
-        factoryProducer = {
-            object : ViewModelProvider.Factory {
-                override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                    return ProductViewModel(db.dao) as T
-                }
-            }
-        }
-    )
+    private val productViewModel: ProductViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             PantryPigeonTheme {
-                val state by viewModel.state.collectAsState()
-                val stateProductDetails by viewModel.stateProductDetails.collectAsState()
-                val stateOldestProduct by viewModel.oldestProductState.collectAsState()
+                val state by productViewModel.state.collectAsState()
+                val stateProductDetails by productViewModel.stateProductDetails.collectAsState()
+                val stateOldestProduct by productViewModel.oldestProductState.collectAsState()
 
                 val navController = rememberNavController()
                 NavHost(
@@ -72,13 +54,13 @@ class MainActivity : ComponentActivity() {
                                     ProductDetailView.route
                                 )
                             },
-                            getProductDetailsById = viewModel::getProductDetailsById
+                            getProductDetailsById = productViewModel::getProductDetailsById
                         )
                     }
                     composable(route = ProductDetailView.route) {
                         ProductDetailView(
                             stateProductDetails = stateProductDetails,
-                            onEvent = viewModel::onEvent,
+                            onEvent = productViewModel::onEvent,
                             naveToPantry = { navController.navigateSingleTopTo(PantryView.route) }
                         )
                     }
@@ -86,7 +68,7 @@ class MainActivity : ComponentActivity() {
                     composable(route = AddProductView.route) {
                         AddProductScreen(
                             state = state,
-                            onEvent = viewModel::onEvent,
+                            onEvent = productViewModel::onEvent,
                             navBack = {
                                 navController.navigateSingleTopTo(
                                     HomeView.route
