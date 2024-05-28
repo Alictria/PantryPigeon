@@ -21,10 +21,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.pantrypigeon.Product
+import com.example.pantrypigeon.ProductEvent
 
 @Composable
 fun ProductDetailView(
-    stateProductDetails: Product?
+    stateProductDetails: Product?,
+    onEvent: (ProductEvent) -> Unit,
+    naveToPantry:() -> Unit
 ) {
     val brush = Brush.horizontalGradient(listOf(Color.Green, Color.Blue))
     if (stateProductDetails != null) {
@@ -58,7 +61,7 @@ fun ProductDetailView(
                 Text(text = "storage ")
             }
             FloatingActionButton(
-                onClick = {},
+                onClick = {run { onEvent(ProductEvent.DeleteProduct(stateProductDetails)); naveToPantry()  }},
                 modifier = Modifier.padding(16.dp),
                 containerColor = Color.Red
             ) {
