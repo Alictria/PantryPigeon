@@ -1,4 +1,4 @@
-package com.example.pantrypigeon.ui
+package com.example.pantrypigeon.addProduct
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
@@ -143,7 +143,8 @@ fun AddProductScreen(
                 var expanded by remember { mutableStateOf(false) }
                 var selectedText by remember { mutableStateOf(pantryTypes[0]) }
                 ExposedDropdownMenuBox(
-                    modifier = Modifier.weight(2f)
+                    modifier = Modifier
+                        .weight(2f)
                         .height(IntrinsicSize.Min),
                     expanded = expanded,
                     onExpandedChange = {

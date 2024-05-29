@@ -10,10 +10,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.pantrypigeon.ui.AddProductScreen
-import com.example.pantrypigeon.ui.HomeView
-import com.example.pantrypigeon.ui.PantryView
-import com.example.pantrypigeon.ui.ProductDetailView
+import com.example.pantrypigeon.addProduct.AddProductScreen
+import com.example.pantrypigeon.home.HomeView
+import com.example.pantrypigeon.pantry.PantryView
+import com.example.pantrypigeon.productDetails.ProductDetailView
 import com.example.pantrypigeon.ui.theme.PantryPigeonTheme
 import dagger.hilt.android.AndroidEntryPoint
 

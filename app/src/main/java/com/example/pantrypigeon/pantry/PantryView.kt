@@ -1,4 +1,4 @@
-package com.example.pantrypigeon.ui
+package com.example.pantrypigeon.pantry
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable

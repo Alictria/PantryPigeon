@@ -1,4 +1,4 @@
-package com.example.pantrypigeon.ui
+package com.example.pantrypigeon.productDetails
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -20,8 +20,8 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.example.pantrypigeon.Product
 import com.example.pantrypigeon.ProductEvent
+import com.example.pantrypigeon.database.Product
 
 @Composable
 fun ProductDetailView(

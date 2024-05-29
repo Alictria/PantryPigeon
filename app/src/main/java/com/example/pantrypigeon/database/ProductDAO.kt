@@ -1,4 +1,4 @@
-package com.example.pantrypigeon
+package com.example.pantrypigeon.database
 
 import androidx.room.Dao
 import androidx.room.Delete
