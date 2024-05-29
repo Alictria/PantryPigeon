@@ -1,6 +1,6 @@
 package com.example.pantrypigeon
 
-import java.sql.Blob
+import com.example.pantrypigeon.database.Product
 import java.util.Date
 
 data class ProductState(
