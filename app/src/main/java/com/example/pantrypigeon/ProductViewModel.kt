@@ -7,7 +7,6 @@ import com.example.pantrypigeon.database.ProductDao
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -20,9 +19,6 @@ class ProductViewModel @Inject constructor(
     private val dao: ProductDao
 ) : ViewModel() {
 
-    private val _stateProductDetails: MutableStateFlow<Product?> = MutableStateFlow(null)
-    val stateProductDetails: StateFlow<Product?> = _stateProductDetails
-
     private val _products = dao.getProductByNewestEntry()
     private val _state = MutableStateFlow(ProductState())
     val state = combine(_state, _products) { state, products ->
@@ -30,20 +26,6 @@ class ProductViewModel @Inject constructor(
             products = products
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), ProductState())
-
-    private val _oldestProducts = dao.getProductByOldestDates()
-    private val _oldestProductState = MutableStateFlow(ProductState())
-    val oldestProductState = combine(_oldestProductState, _oldestProducts) { productState, oldestProduct ->
-        productState.copy(
-            products = oldestProduct
-        )
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), ProductState())
-    fun getProductDetailsById(id: Int) {
-        viewModelScope.launch {
-            _stateProductDetails.value = dao.getProductDetailsById(id)
-
-        }
-    }
 
     fun onEvent(event: ProductEvent) {
         when (event) {

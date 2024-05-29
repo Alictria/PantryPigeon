@@ -12,8 +12,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.pantrypigeon.addProduct.AddProductScreen
 import com.example.pantrypigeon.home.HomeView
+import com.example.pantrypigeon.home.HomeViewModel
 import com.example.pantrypigeon.pantry.PantryView
 import com.example.pantrypigeon.productDetails.ProductDetailView
+import com.example.pantrypigeon.productDetails.ProductDetailsViewModel
 import com.example.pantrypigeon.ui.theme.PantryPigeonTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -21,14 +23,16 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private val productViewModel: ProductViewModel by viewModels()
+    private val homeViewModel: HomeViewModel by viewModels()
+    private val productDetails: ProductDetailsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             PantryPigeonTheme {
                 val state by productViewModel.state.collectAsState()
-                val stateProductDetails by productViewModel.stateProductDetails.collectAsState()
-                val stateOldestProduct by productViewModel.oldestProductState.collectAsState()
+                val stateProductDetails by productDetails.stateProductDetails.collectAsState()
+                val stateOldestProduct by homeViewModel.oldestProductState.collectAsState()
 
                 val navController = rememberNavController()
                 NavHost(
@@ -54,7 +58,7 @@ class MainActivity : ComponentActivity() {
                                     ProductDetailView.route
                                 )
                             },
-                            getProductDetailsById = productViewModel::getProductDetailsById
+                            getProductDetailsById = productDetails::getProductDetailsById
                         )
                     }
                     composable(route = ProductDetailView.route) {

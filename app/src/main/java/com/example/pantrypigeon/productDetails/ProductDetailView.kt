@@ -27,7 +27,7 @@ import com.example.pantrypigeon.database.Product
 fun ProductDetailView(
     stateProductDetails: Product?,
     onEvent: (ProductEvent) -> Unit,
-    naveToPantry:() -> Unit
+    naveToPantry: () -> Unit
 ) {
     val brush = Brush.horizontalGradient(listOf(Color.Green, Color.Blue))
     if (stateProductDetails != null) {
@@ -57,11 +57,12 @@ fun ProductDetailView(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
+                //TODO load data from stateProductDetails
                 Text(text = "expiration Date")
-                Text(text = "storage ")
+                Text(text = stateProductDetails.storageLocation)
             }
             FloatingActionButton(
-                onClick = {run { onEvent(ProductEvent.DeleteProduct(stateProductDetails)); naveToPantry()  }},
+                onClick = { run { onEvent(ProductEvent.DeleteProduct(stateProductDetails)); naveToPantry() } },
                 modifier = Modifier.padding(16.dp),
                 containerColor = Color.Red
             ) {
