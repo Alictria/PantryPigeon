@@ -1,6 +1,7 @@
 # PantryPigeon
 
-The PantryPigeon Application is meant to help keep track of the expiration date from Produce/Products in your pantry (fridge, freezer etc.). To avoid wasting food and keeping an overview of your storage
+The PantryPigeon application is designed to help keep track of the products in your pantry (fridge, freezer, etc.) before they expire. To avoid wasting food and to keep track of your storage
+
 
 ## Features
 - Add Products
