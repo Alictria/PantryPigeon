@@ -1,16 +1,9 @@
 package com.example.pantrypigeon.addProduct
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.DatePicker
@@ -34,7 +27,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.unit.dp
 import com.example.pantrypigeon.ProductEvent
 import com.example.pantrypigeon.ProductState
 import java.text.SimpleDateFormat
@@ -52,7 +44,6 @@ fun AddProductScreen(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = { run { onEvent(ProductEvent.SaveProduct); navBack() }; },
-                Modifier.padding(16.dp)
             ) {
                 Icon(Icons.Filled.Check, "Save item")
             }
@@ -60,119 +51,69 @@ fun AddProductScreen(
     ) { padding ->
 
         val maxNameLength = 50
+
         Column(
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxWidth()
                 .padding(padding),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Text(text = "Add Product", modifier = Modifier.padding(16.dp))
+            Text(text = "Add Product")
             OutlinedTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
+                modifier = Modifier,
                 value = state.productName,
+                label = { Text("Product name") },
                 onValueChange = {
                     if (it.length <= maxNameLength) {
                         onEvent(ProductEvent.SetProductName(it))
                     }
                 },
-                label = { Text("Product name") }
             )
-            Row(
+
+            OutlinedTextField(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-
-                var expirationDate by remember { mutableStateOf("") }
-                val openDialog = remember { mutableStateOf(false) }
-                if (openDialog.value) {
-                    val datePickerState = rememberDatePickerState()
-                    val dateInMilli = datePickerState.selectedDateMillis
-
-                    DatePickerDialog(
-                        onDismissRequest = {
-                            openDialog.value = false
-                        },
-                        confirmButton = {
-                            TextButton(
-                                onClick = {
-                                    openDialog.value = false
-
-                                    val simpleDateFormat = SimpleDateFormat("dd.MM.yy")
-
-                                    if (dateInMilli != null) {
-                                        expirationDate =
-                                            simpleDateFormat.format(Date(dateInMilli))
-                                        onEvent(ProductEvent.SetExpirationDate(Date(dateInMilli)))
-                                    }
-                                },
-                                enabled = datePickerState.selectedDateMillis != null
-                            ) {
-                                Text("OK")
-                            }
-                        },
-                        dismissButton = {
-                            TextButton(onClick = { openDialog.value = false }) {
-                                Text("Cancel")
-                            }
+                    .onFocusChanged {
+                        if (it.isFocused) {
+                            openDialog.value = true
                         }
-                    ) {
-                        DatePicker(state = datePickerState)
-                    }
-                }
-                OutlinedTextField(
-                    modifier = Modifier
-                        .weight(1f)
-                        .onFocusChanged {
-                            if (it.isFocused) {
-                                openDialog.value = true
-                            }
-                        },
-                    value = expirationDate,
-                    onValueChange = {
                     },
-                    label = { Text("EXP") })
+                value = expirationDate,
+                onValueChange = {},
+                label = { Text("Expiration date") }
+            )
 
-                Spacer(modifier = Modifier.width(16.dp))
+            var expanded by remember { mutableStateOf(false) }
+            var pantryType by remember { mutableStateOf(PantryType.FRIDGE) }
+            ExposedDropdownMenuBox(
+                modifier = Modifier,
+                expanded = expanded,
+                onExpandedChange = {
+                    expanded = !expanded
+                }
+            ) {
+                OutlinedTextField(
+                    value = pantryType.description,
+                    onValueChange = {},
+                    readOnly = true,
+                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+                    modifier = Modifier.menuAnchor(),
+                    label = { Text(text = "Pantry Type") }
 
-                val pantryTypes = listOf("Fridge", "Freezer", "Pantry")
-                var expanded by remember { mutableStateOf(false) }
-                var selectedText by remember { mutableStateOf(pantryTypes[0]) }
-                ExposedDropdownMenuBox(
-                    modifier = Modifier
-                        .weight(2f)
-                        .height(IntrinsicSize.Min),
+                )
+
+                ExposedDropdownMenu(
                     expanded = expanded,
-                    onExpandedChange = {
-                        expanded = !expanded
-                    }
+                    onDismissRequest = { expanded = false }
                 ) {
-                    OutlinedTextField(
-                        value = selectedText,
-                        onValueChange = {},
-                        readOnly = true,
-                        trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-                        modifier = Modifier.menuAnchor()
-                    )
-
-                    ExposedDropdownMenu(
-                        expanded = expanded,
-                        onDismissRequest = { expanded = false }
-                    ) {
-                        pantryTypes.forEach { item ->
-                            DropdownMenuItem(
-                                text = { Text(text = item) },
-                                onClick = {
-                                    onEvent(ProductEvent.SetStorageLocation(item))
-                                    selectedText = item
-                                    expanded = false
-                                }
-                            )
-                        }
+                    PantryType.entries.forEach { item ->
+                        DropdownMenuItem(
+                            text = { Text(text = item.description) },
+                            onClick = {
+                                onEvent(ProductEvent.SetStorageLocation(item))
+                                pantryType = item
+                                expanded = false
+                            }
+                        )
                     }
                 }
             }
