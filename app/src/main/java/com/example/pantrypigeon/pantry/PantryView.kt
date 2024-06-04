@@ -53,7 +53,7 @@ fun PantryView(
 
                     Text(text = formattedDate)
                     Text(text = product.productName)
-                    Text(text = product.storageLocation)
+                    Text(text = product.storageLocation.description)
                 }
             }
         }

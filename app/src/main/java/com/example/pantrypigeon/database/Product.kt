@@ -3,6 +3,7 @@ package com.example.pantrypigeon.database
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.pantrypigeon.addProduct.PantryType
 import java.util.Date
 
 
@@ -10,7 +11,7 @@ import java.util.Date
 data class Product(
     @ColumnInfo(name = "product_name") val productName: String,
     @ColumnInfo(name = "expiration_date") val expirationDate: Date = Date(),
-    @ColumnInfo(name = "storage_location") val storageLocation: String,
+    @ColumnInfo(name = "storage_location") val storageLocation: PantryType,
     @ColumnInfo(
         name = "product_image",
         typeAffinity = ColumnInfo.BLOB

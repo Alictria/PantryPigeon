@@ -35,11 +35,14 @@ import java.util.Date
 @SuppressLint("SimpleDateFormat")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddProductScreen(
+fun AddProductView(
     state: ProductState,
     onEvent: (ProductEvent) -> Unit,
     navBack: () -> Unit,
 ) {
+    val openDialog = remember { mutableStateOf(false) }
+    var expirationDate by remember { mutableStateOf("") }
+
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
@@ -98,7 +101,6 @@ fun AddProductScreen(
                     trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
                     modifier = Modifier.menuAnchor(),
                     label = { Text(text = "Pantry Type") }
-
                 )
 
                 ExposedDropdownMenu(
@@ -117,6 +119,41 @@ fun AddProductScreen(
                     }
                 }
             }
+        }
+    }
+    if (openDialog.value) {
+        val datePickerState = rememberDatePickerState()
+        val dateInMilli = datePickerState.selectedDateMillis
+
+        DatePickerDialog(
+            onDismissRequest = {
+                openDialog.value = false
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        openDialog.value = false
+
+                        val simpleDateFormat = SimpleDateFormat("dd.MM.yy")
+
+                        if (dateInMilli != null) {
+                            expirationDate =
+                                simpleDateFormat.format(Date(dateInMilli))
+                            onEvent(ProductEvent.SetExpirationDate(Date(dateInMilli)))
+                        }
+                    },
+                    enabled = datePickerState.selectedDateMillis != null
+                ) {
+                    Text("OK")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { openDialog.value = false }) {
+                    Text("Cancel")
+                }
+            }
+        ) {
+            DatePicker(state = datePickerState)
         }
     }
 }
