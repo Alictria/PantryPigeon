@@ -1,6 +1,7 @@
 package com.example.pantrypigeon.productDetails
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,7 +28,8 @@ import com.example.pantrypigeon.database.Product
 fun ProductDetailView(
     stateProductDetails: Product?,
     onEvent: (ProductEvent) -> Unit,
-    naveToPantry: () -> Unit
+    naveToPantry: () -> Unit,
+//    onClick: () -> Unit
 ) {
     val brush = Brush.horizontalGradient(listOf(Color.Green, Color.Blue))
     if (stateProductDetails != null) {
@@ -57,16 +59,27 @@ fun ProductDetailView(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                //TODO load data from stateProductDetails
-                Text(text = "expiration Date")
+                //TODO load date from stateProductDetails in right time format
+                Text(text = stateProductDetails.expirationDate.toString())
                 Text(text = stateProductDetails.storageLocation)
             }
-            FloatingActionButton(
-                onClick = { run { onEvent(ProductEvent.DeleteProduct(stateProductDetails)); naveToPantry() } },
-                modifier = Modifier.padding(16.dp),
-                containerColor = Color.Red
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Icon(Icons.Filled.Delete, "Delete item button")
+                Text(text = "text",
+                    Modifier
+                        .padding(16.dp)
+                        .clickable {}
+                )
+
+                FloatingActionButton(
+                    onClick = { run { onEvent(ProductEvent.DeleteProduct(stateProductDetails)); naveToPantry() } },
+                    modifier = Modifier.padding(16.dp),
+                    containerColor = Color.Red
+                ) {
+                    Icon(Icons.Filled.Delete, "Delete item button")
+                }
             }
 
         }
