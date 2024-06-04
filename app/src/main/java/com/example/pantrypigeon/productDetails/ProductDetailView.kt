@@ -61,7 +61,7 @@ fun ProductDetailView(
             ) {
                 //TODO load date from stateProductDetails in right time format
                 Text(text = stateProductDetails.expirationDate.toString())
-                Text(text = stateProductDetails.storageLocation)
+                Text(text = stateProductDetails.storageLocation.description)
             }
             Row(
                 modifier = Modifier.fillMaxWidth(),

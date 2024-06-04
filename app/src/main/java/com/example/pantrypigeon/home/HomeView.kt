@@ -73,7 +73,7 @@ fun HomeView(
 
                         Text(text = product.productName/* modifier = Modifier.padding(16.dp)*/)
                         Text(text = formattedDate)
-                        Text(text = product.storageLocation)
+                        Text(text = product.storageLocation.description)
                     }
                 }
             }
