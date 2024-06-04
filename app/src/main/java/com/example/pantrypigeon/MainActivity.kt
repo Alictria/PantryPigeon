@@ -11,6 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.pantrypigeon.addProduct.AddProductScreen
+import com.example.pantrypigeon.addProduct.ProductViewModel
 import com.example.pantrypigeon.home.HomeView
 import com.example.pantrypigeon.home.HomeViewModel
 import com.example.pantrypigeon.pantry.PantryView

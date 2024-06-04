@@ -1,7 +1,9 @@
-package com.example.pantrypigeon
+package com.example.pantrypigeon.addProduct
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.pantrypigeon.ProductEvent
+import com.example.pantrypigeon.ProductState
 import com.example.pantrypigeon.database.Product
 import com.example.pantrypigeon.database.ProductDao
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -72,7 +74,7 @@ class ProductViewModel @Inject constructor(
                 val expirationDate = state.value.expirationDate
                 val storageLocation = state.value.storageLocation
                 val productImage = state.value.productImage
-                if (productName.isBlank() || expirationDate == Date() || storageLocation.isBlank()) {
+                if (productName.isBlank() || expirationDate == Date()) {
                     return
                 } else {
                     val product = Product(
