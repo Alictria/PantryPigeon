@@ -10,6 +10,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.pantrypigeon.RecipeSuggestionView.RecipeSuggestionView
 import com.example.pantrypigeon.addProduct.AddProductView
 import com.example.pantrypigeon.addProduct.ProductViewModel
 import com.example.pantrypigeon.home.HomeView
@@ -42,49 +43,57 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 NavHost(
                     navController = navController,
-                    startDestination = HomeView.route
+                    startDestination = Home.route
                 ) {
-                    composable(route = HomeView.route) {
+                    composable(route = Home.route) {
 
                         HomeView(
                             onClickAddProduct = {
                                 navController.navigateSingleTopTo(
-                                    AddProductView.route
+                                    AddProduct.route
                                 )
                             },
-                            navPantry = { navController.navigateSingleTopTo(PantryView.route) },
+                            navPantry = { navController.navigateSingleTopTo(Pantry.route) },
                             state = stateOldestProduct
                         )
                     }
-                    composable(route = PantryView.route) {
+                    composable(route = Pantry.route) {
                         PantryView(
                             state = stateNewestProduct,
                             navProductDetailView = {
                                 navController.navigateSingleTopTo(
-                                    ProductDetailView.route
+                                    ProductDetail.route
                                 )
                             },
                             getProductDetailsById = productDetails::getProductDetailsById
                         )
                     }
-                    composable(route = ProductDetailView.route) {
+                    composable(route = ProductDetail.route) {
                         ProductDetailView(
                             stateProductDetails = stateProductDetails,
                             onEvent = productViewModel::onEvent,
-                            naveToPantry = { navController.navigateSingleTopTo(PantryView.route) }
+                            naveToPantry = { navController.navigateSingleTopTo(Pantry.route) },
+                            navToRecipeSuggestion = {
+                                navController.navigateSingleTopTo(
+                                    RecipeSuggestion.route
+                                )
+                            }
                         )
                     }
 
-                    composable(route = AddProductView.route) {
+                    composable(route = AddProduct.route) {
                         AddProductView(
                             state = state,
                             onEvent = productViewModel::onEvent,
                             navBack = {
                                 navController.navigateSingleTopTo(
-                                    HomeView.route
+                                    Home.route
                                 )
                             }
                         )
+                    }
+                    composable(route = RecipeSuggestion.route) {
+                        RecipeSuggestionView()
                     }
                 }
             }

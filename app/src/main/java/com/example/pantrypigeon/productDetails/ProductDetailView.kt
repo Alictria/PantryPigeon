@@ -29,7 +29,7 @@ fun ProductDetailView(
     stateProductDetails: Product?,
     onEvent: (ProductEvent) -> Unit,
     naveToPantry: () -> Unit,
-//    onClick: () -> Unit
+    navToRecipeSuggestion: (product: String) -> Unit
 ) {
     val brush = Brush.horizontalGradient(listOf(Color.Green, Color.Blue))
     if (stateProductDetails != null) {
@@ -70,7 +70,7 @@ fun ProductDetailView(
                 Text(text = "text",
                     Modifier
                         .padding(16.dp)
-                        .clickable {}
+                        .clickable { navToRecipeSuggestion(stateProductDetails.productName) }
                 )
 
                 FloatingActionButton(

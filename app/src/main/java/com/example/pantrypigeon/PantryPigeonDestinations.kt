@@ -4,18 +4,22 @@ interface PantryPigeonDestinations {
     val route: String
 }
 
-object HomeView : PantryPigeonDestinations {
-    override val route = "homeView"
+object Home : PantryPigeonDestinations {
+    override val route = "home"
 }
 
-object AddProductView : PantryPigeonDestinations {
-    override val route = "addProductView"
+object AddProduct : PantryPigeonDestinations {
+    override val route = "addProduct"
 }
 
-object PantryView : PantryPigeonDestinations {
-    override val route = "pantryView"
+object Pantry : PantryPigeonDestinations {
+    override val route = "pantry"
 }
 
-object ProductDetailView : PantryPigeonDestinations {
-    override val route = "productDetailView"
+object ProductDetail : PantryPigeonDestinations {
+    override val route = "productDetail"
+}
+
+object RecipeSuggestion : PantryPigeonDestinations {
+    override val route = "recipeSuggestion"
 }
