@@ -22,11 +22,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.pantrypigeon.ProductEvent
-import com.example.pantrypigeon.database.Product
+import com.example.pantrypigeon.data.database.DatabaseProduct
 
 @Composable
 fun ProductDetailView(
-    stateProductDetails: Product?,
+    stateProductDetails: DatabaseProduct?,
     onEvent: (ProductEvent) -> Unit,
     naveToPantry: () -> Unit,
     navToRecipeSuggestion: (product: String) -> Unit

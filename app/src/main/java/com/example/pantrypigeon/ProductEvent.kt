@@ -1,7 +1,7 @@
 package com.example.pantrypigeon
 
 import com.example.pantrypigeon.addProduct.PantryType
-import com.example.pantrypigeon.database.Product
+import com.example.pantrypigeon.data.database.DatabaseProduct
 import java.util.Date
 
 sealed interface ProductEvent {
@@ -10,5 +10,5 @@ sealed interface ProductEvent {
     data class SetExpirationDate(val expirationDate: Date) : ProductEvent
     data class SetStorageLocation(val storageLocation: PantryType) : ProductEvent
     data class SetProductImage(val productImage: ByteArray?) : ProductEvent
-    data class DeleteProduct(val product: Product) : ProductEvent
+    data class DeleteProduct(val product: DatabaseProduct) : ProductEvent
 }

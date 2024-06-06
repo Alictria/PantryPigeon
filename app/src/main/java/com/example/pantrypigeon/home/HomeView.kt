@@ -81,7 +81,9 @@ fun HomeView(
                 modifier = Modifier.padding(16.dp),
                 horizontalAlignment = Alignment.End,
             ) {
-                ExtendedFloatingActionButton(
+
+
+            ExtendedFloatingActionButton(
                     onClick = { navPantry() },
                     icon = { Icon(Icons.Filled.List, "Add item.") },
                     text = { Text(text = "View Pantry") },

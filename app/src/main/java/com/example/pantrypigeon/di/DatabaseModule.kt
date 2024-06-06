@@ -2,8 +2,8 @@ package com.example.pantrypigeon.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.pantrypigeon.database.ProductDao
-import com.example.pantrypigeon.database.ProductDatabase
+import com.example.pantrypigeon.data.database.ProductDao
+import com.example.pantrypigeon.data.database.ProductDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

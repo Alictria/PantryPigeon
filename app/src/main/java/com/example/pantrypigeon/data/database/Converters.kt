@@ -1,4 +1,4 @@
-package com.example.pantrypigeon.database
+package com.example.pantrypigeon.data.database
 
 import androidx.room.TypeConverter
 import java.util.Date

@@ -12,7 +12,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.pantrypigeon.RecipeSuggestionView.RecipeSuggestionView
 import com.example.pantrypigeon.addProduct.AddProductView
-import com.example.pantrypigeon.addProduct.ProductViewModel
+import com.example.pantrypigeon.addProduct.AddProductViewModel
 import com.example.pantrypigeon.home.HomeView
 import com.example.pantrypigeon.home.HomeViewModel
 import com.example.pantrypigeon.pantry.PantryView
@@ -25,11 +25,12 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    private val productViewModel: ProductViewModel by viewModels()
+    private val productViewModel: AddProductViewModel by viewModels()
     private val homeViewModel: HomeViewModel by viewModels()
     private val productDetails: ProductDetailsViewModel by viewModels()
     private val pantryViewModel: PantryViewModel by viewModels()
     private val mainViewModel: MainViewModel by viewModels()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

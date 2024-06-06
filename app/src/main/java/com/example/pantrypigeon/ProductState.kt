@@ -1,11 +1,11 @@
 package com.example.pantrypigeon
 
 import com.example.pantrypigeon.addProduct.PantryType
-import com.example.pantrypigeon.database.Product
+import com.example.pantrypigeon.data.database.DatabaseProduct
 import java.util.Date
 
 data class ProductState(
-    val products: List<Product> = emptyList(),
+    val products: List<DatabaseProduct> = emptyList(),
     val productName: String = "",
     val expirationDate: Date = Date(),
     val storageLocation: PantryType = PantryType.PANTRY,

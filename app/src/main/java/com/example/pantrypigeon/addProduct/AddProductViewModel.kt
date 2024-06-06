@@ -4,8 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pantrypigeon.ProductEvent
 import com.example.pantrypigeon.ProductState
-import com.example.pantrypigeon.database.Product
-import com.example.pantrypigeon.database.ProductDao
+import com.example.pantrypigeon.data.Product
+import com.example.pantrypigeon.data.ProductRepository
+import com.example.pantrypigeon.data.database.ProductDao
+import com.google.firebase.Firebase
+import com.google.firebase.firestore.firestore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -17,12 +20,15 @@ import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
-class ProductViewModel @Inject constructor(
-    private val dao: ProductDao
+class AddProductViewModel @Inject constructor(
+    private val dao: ProductDao,
+    private val repository: ProductRepository
 ) : ViewModel() {
 
     private val _products = dao.getProductByNewestEntry()
     private val _state = MutableStateFlow(ProductState())
+    val db = Firebase.firestore
+
     val state = combine(_state, _products) { state, products ->
         state.copy(
             products = products
@@ -81,10 +87,10 @@ class ProductViewModel @Inject constructor(
                         productName = productName,
                         expirationDate = expirationDate,
                         storageLocation = storageLocation,
-                        productImage = productImage
+                        productImage = productImage,
                     )
                     viewModelScope.launch {
-                        dao.insertProduct(product)
+                        repository.saveProduct(product)
                     }
                 }
             }
