@@ -3,7 +3,11 @@ package com.example.pantrypigeon.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pantrypigeon.ProductState
+import com.example.pantrypigeon.database.Product
 import com.example.pantrypigeon.database.ProductDao
+import com.google.firebase.Firebase
+import com.google.firebase.firestore.dataObjects
+import com.google.firebase.firestore.firestore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -16,7 +20,12 @@ class HomeViewModel @Inject constructor(
     private val dao: ProductDao
 ) : ViewModel() {
 
-    private val _oldestProducts = dao.getProductByOldestDates()
+    val db = Firebase.firestore
+
+
+    //    private val _oldestProducts = dao.getProductByOldestDates()
+    private val _oldestProducts =
+        db.collection("products").orderBy("expirationDate").dataObjects<Product>()
     private val _oldestProductState = MutableStateFlow(ProductState())
     val oldestProductState =
         combine(_oldestProductState, _oldestProducts) { productState, oldestProduct ->
@@ -24,4 +33,5 @@ class HomeViewModel @Inject constructor(
                 products = oldestProduct
             )
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), ProductState())
+
 }

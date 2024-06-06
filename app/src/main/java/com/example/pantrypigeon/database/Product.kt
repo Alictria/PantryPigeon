@@ -17,4 +17,6 @@ data class Product(
         typeAffinity = ColumnInfo.BLOB
     ) val productImage: ByteArray? = null,
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
-)
+) {
+    constructor() : this("", Date(), PantryType.PANTRY, null, 0)
+}

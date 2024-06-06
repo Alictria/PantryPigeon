@@ -31,6 +31,7 @@ class MainActivity : ComponentActivity() {
     private val pantryViewModel: PantryViewModel by viewModels()
     private val mainViewModel: MainViewModel by viewModels()
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {

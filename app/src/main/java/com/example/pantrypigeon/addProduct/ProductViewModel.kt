@@ -1,11 +1,14 @@
 package com.example.pantrypigeon.addProduct
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pantrypigeon.ProductEvent
 import com.example.pantrypigeon.ProductState
 import com.example.pantrypigeon.database.Product
 import com.example.pantrypigeon.database.ProductDao
+import com.google.firebase.Firebase
+import com.google.firebase.firestore.firestore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -23,6 +26,8 @@ class ProductViewModel @Inject constructor(
 
     private val _products = dao.getProductByNewestEntry()
     private val _state = MutableStateFlow(ProductState())
+    val db = Firebase.firestore
+
     val state = combine(_state, _products) { state, products ->
         state.copy(
             products = products
@@ -85,6 +90,17 @@ class ProductViewModel @Inject constructor(
                     )
                     viewModelScope.launch {
                         dao.insertProduct(product)
+                        db.collection("products")
+                            .add(product).addOnSuccessListener { documentReference ->
+                                Log.d(
+                                    "ProductViewModel",
+                                    "DocumentSnapshot added with ID: ${documentReference.id}"
+                                )
+                            }
+                            .addOnFailureListener { e ->
+                                Log.w("ProductViewModel", "Error adding document", e)
+                            }
+
                     }
                 }
             }
