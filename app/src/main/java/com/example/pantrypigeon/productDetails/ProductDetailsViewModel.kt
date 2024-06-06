@@ -2,8 +2,8 @@ package com.example.pantrypigeon.productDetails
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.pantrypigeon.database.Product
-import com.example.pantrypigeon.database.ProductDao
+import com.example.pantrypigeon.data.database.DatabaseProduct
+import com.example.pantrypigeon.data.database.ProductDao
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -14,8 +14,8 @@ import javax.inject.Inject
 class ProductDetailsViewModel @Inject constructor(
     private val dao: ProductDao
 ) : ViewModel() {
-    private val _stateProductDetails: MutableStateFlow<Product?> = MutableStateFlow(null)
-    val stateProductDetails: StateFlow<Product?> = _stateProductDetails
+    private val _stateProductDetails: MutableStateFlow<DatabaseProduct?> = MutableStateFlow(null)
+    val stateProductDetails: StateFlow<DatabaseProduct?> = _stateProductDetails
 
     fun getProductDetailsById(id: Int) {
         viewModelScope.launch {

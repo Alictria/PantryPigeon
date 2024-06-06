@@ -3,7 +3,7 @@ package com.example.pantrypigeon.pantry
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pantrypigeon.ProductState
-import com.example.pantrypigeon.database.ProductDao
+import com.example.pantrypigeon.data.database.ProductDao
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
